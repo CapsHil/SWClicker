@@ -1,0 +1,17 @@
+<head>
+  	<title>SWClicker</title>
+</head>
+
+<body>
+  	<h1 class="title">Star Wars Clicker</h1>
+
+  	{{> hello}}
+</body>
+
+
+<template name="hello">
+	<img src="img/logo_empire.png" alt="Logo Empire" class="credit img-btn">
+	<p class="credit">{{credit}} <img src="img/credit.png" class="img-credit"></p>
+	<button class='btn' id="st">Stormtrooper ({{stNb}})<br />({{stPrice}})</button>
+	<button class='btn' id="tie">TIE Fighter ({{tieNb}})<br />({{tiePrice}})</button>
+</template>

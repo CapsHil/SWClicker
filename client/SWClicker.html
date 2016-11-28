@@ -1,11 +1,19 @@
 <head>
-	<title>SWClicker</title>
+	<title>SWClicker {{credit}} GC</title>
 </head>
 
 <body>
 	<div class="container">
 		<div class="row page-header">
-			{{> loginButtons}}
+			<div class="col-lg-1">
+				{{> loginButtons}}
+			</div>
+			<div class="col-lg-offset-1 col-lg-8 center">
+				<div class="popup">
+				  <span class="popuptext" id="myPopup">Popup text...</span>
+				</div>
+				<p class="title">Star Wars Clicker</p>
+			</div>
 		</div>
 		<div class="row">
 			{{> main}}
@@ -36,12 +44,10 @@
 	    	<div class="row page-header center credit">
 	        	Bonus
 	        </div>
-	        <div class="row thumbnail">
-		    	<button class="btn" id=""> <span class="badge badge-0"></span><br /></button>
-		    </div>
-		    <div class="row thumbnail">		
-		    	<button class="btn" id=""> <span class="badge badge-0"></span><br /></button>
-		    </div>
+
+	        {{#each bonus}}
+        		{{> bonusBtn}}
+      		{{/each}}
 		</div>
 	    <div class="col-lg-offset-1 col-lg-3">
 	    	<div class="row page-header center credit">
@@ -53,5 +59,14 @@
 		    <div class="row thumbnail">		
 		    	<button class="btn" id="tie">{{tie}} <span class="badge badge-0">{{tieNb}}</span><br />{{tiePrice}} GC</button>
 		    </div>
-	    </div>   
+		    <div class="row thumbnail">		
+		    	<button class="btn" id="sd">{{sd}} <span class="badge badge-0">{{sdNb}}</span><br />{{sdPrice}} GC</button>
+		    </div>
+	    </div>
+</template>
+
+<template name="bonusBtn">
+	<div class="row thumbnail coucou">
+    	<button class="btn" id={{id}}> {{name}}<span class="badge badge-0"></span><br />{{cost}} GC</button>
+    </div>
 </template>

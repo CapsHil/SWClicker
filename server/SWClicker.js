@@ -1,3 +1,6 @@
+import Bonus from '/collections/bonus.js'
+import Games from '/collections/games.js'
+
 Meteor.methods({
 	initBackup: function(id) {
 		console.log('User is logging in')
@@ -7,20 +10,20 @@ Meteor.methods({
 		}
 	},
 
-	updateBackup: function(id, newCredit, newSt, newTie, newClicker) {
-		Games.update({player: id}, { $set: {credit: newCredit, st: newSt, tie: newTie, cliker: newClicker}});
+	updateBackup: function(id, newCredit, newSt, newTie, newSd, newClicker) {
+		Games.update({player: id}, { $set: {credit: newCredit, st: newSt, tie: newTie, sd: newSd, cliker: newClicker}});
 	},
 
 	getBackup: function(id) {
 		if(Games.findOne({player: id}) != null) {
 			var game = Games.findOne({player: id});
 			console.log('Loading game ' + game + ' ' + game.credit);
-			//Meteor.call('loadGame', game.credit, game.st, game.tie, game.clicker);
+			Meteor.call('loadGame', game.credit, game.st, game.tie, game.clicker);
 		}
 	}
 });
 
 
 Meteor.startup(function () {
-		
-    });
+
+});

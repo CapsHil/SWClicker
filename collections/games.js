@@ -1,1 +1,2 @@
-Games = new Mongo.Collection('games');
+const Games = new Mongo.Collection('games');
+export default Games;

@@ -21,29 +21,30 @@ body  {
 
 .btn {
   background: #7c8185;
-  background-image: -webkit-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -moz-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -ms-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -o-linear-gradient(top, #7c8185, #636a6e);
-  background-image: linear-gradient(to bottom, #7c8185, #636a6e);
+  background-image: -webkit-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -moz-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -ms-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -o-linear-gradient(top, #7c8185, #585b5c);
+  background-image: linear-gradient(to bottom, #7c8185, #585b5c);
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0px;
   font-family: Courier New;
-  color: red;
+  color: grey;
   font-size: 20px;
   padding: 10px 20px 10px 20px;
-  border: solid #656769 7px;
+  border: solid #585b5c 7px;
   text-decoration: none;
+  width: 100%;
 }
 
 .btn-ok {
 	background: #7c8185;
-  background-image: -webkit-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -moz-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -ms-linear-gradient(top, #7c8185, #636a6e);
-  background-image: -o-linear-gradient(top, #7c8185, #636a6e);
-  background-image: linear-gradient(to bottom, #7c8185, #636a6e);
+  background-image: -webkit-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -moz-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -ms-linear-gradient(top, #7c8185, #585b5c);
+  background-image: -o-linear-gradient(top, #7c8185, #585b5c);
+  background-image: linear-gradient(to bottom, #7c8185, #585b5c);
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0px;
@@ -51,11 +52,12 @@ body  {
   color: white;
   font-size: 20px;
   padding: 10px 20px 10px 20px;
-  border: solid #656769 7px;
+  border: solid #585b5c 7px;
   text-decoration: none;
+  width: 100%;
 }
 
-.btn:hover {
+.btn:hover, .btn-ok:hover{
   background: #585b5c;
   background-image: -webkit-linear-gradient(top, #585b5c, #7e8082);
   background-image: -moz-linear-gradient(top, #585b5c, #7e8082);
@@ -98,4 +100,23 @@ body  {
 }
 
 .main {
+}
+
+#menu {
+    width:200px;
+    background:blue;
+    position:absolute;
+    overflow:scroll;
+    top:0px;
+    height:100%;
+    padding-top:10px;
+}
+
+.badge {
+  background: white;
+  color: black;
+}
+
+.badge, .badge-0 {
+  background-color: #7e8082;
 }

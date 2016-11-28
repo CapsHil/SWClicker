@@ -36,7 +36,7 @@ Template.body.helpers({
   }
 });
 
-Template.hello.helpers({
+Template.main.helpers({
 credit: function () {
   return Math.round(Session.get('credit'));
 },
@@ -57,7 +57,7 @@ autoClick: function() {
 }
 });
 
-/*
+
 Meteor.setInterval(function() {
   Session.set('credit', Session.get('credit') + Session.get('autoClicker'));
   if(Session.get('credit') >= Session.get('tiePrice')) {
@@ -71,9 +71,9 @@ Meteor.setInterval(function() {
     document.getElementById('st').className = "btn";
   }
 }, 1000);
-*/
 
-Template.hello.events({
+
+Template.main.events({
   'click .credit': function () {
     Session.set('credit', Session.get('credit') + 1);
     if(Session.get('credit') >= Session.get('tiePrice')) {

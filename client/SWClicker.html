@@ -3,23 +3,49 @@
 </head>
 
 <body>
-	<h1 class="title">Star Wars Clicker</h1>
-	{{> loginButtons}}
-	{{#if currentUser}}
-		{{> hello}}
-	{{/if}}
+	<div class="container">
+		<div class="row page-header">
+			{{> loginButtons}}
+		</div>
+		<div class="row">
+			{{> main}}
+		</div>
+		<div class="row">
+			<div class="alert alert-warning col-lg-4" style="display: none">
+			    <button type="button" class="close">×</button>
+			    <h4>Game Saved</h4>
+			</div>
+		</div>
+	</div>
 </body>
 
 
-<template name="hello">
-	<div class="row">
-	    <div class="col-xs-5">
-		    <img src="img/logo_empire.png" alt="Logo Empire" class="credit img-btn">
-		</div>
-	    <div class="col-xs-7">
-	        <p class="credit">{{credit}} <img src="img/credit.png" class="img-credit"> - Auto-click: {{autoClick}}</p>
-		    <button class='btn' id="st">Stormtrooper ({{stNb}})<br />({{stPrice}})</button>
-		    <button class='btn' id="tie">TIE Fighter ({{tieNb}})<br />({{tiePrice}})</button>
+<template name="main">
+	    <div class="col-lg-3">
+	    <div class="row">
+	    	<p class="credit">{{credit}} Galactic Credits</p>
+	    	<p>per second : {{autoClick}}</p>
 	    </div>
-	</div>
+	    <div class="row">
+	    	<img src="img/logo_empire.png" alt="Logo Empire" class="credit img-btn">
+	    </div>
+
+		    
+		</div>
+		<div class="col-lg-5">
+	    	<div class="row">
+	        	
+	        </div>
+		</div>
+	    <div class="col-lg-4">
+	    	<div class="row page-header">
+	    		Store
+	    	</div>
+		    <div class="row thumbnail">
+		    	<button class="btn" id="st">Stormtrooper <span class="badge badge-0">{{stNb}}</span><br />({{stPrice}})</button>
+		    </div>
+		    <div class="row thumbnail">		
+		    	<button class="btn" id="tie">TIE Fighter ({{tieNb}})<br />({{tiePrice}})</button>
+		    </div>
+	    </div>   
 </template>

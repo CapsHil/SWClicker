@@ -4,17 +4,7 @@
 
 <body>
 	<div class="container">
-		<div class="row page-header">
-			<div class="col-lg-1">
-				{{> loginButtons}}
-			</div>
-			<div class="col-lg-offset-1 col-lg-8 center">
-				<div class="popup">
-				  <span class="popuptext" id="myPopup">Game saved !</span>
-				</div>
-				<p class="title">Star Wars Clicker</p>
-			</div>
-		</div>
+		{{> head}}
 		<div class="row">
 			{{> main}}
 		</div>
@@ -27,6 +17,23 @@
 	</div>
 </body>
 
+<template name="head">
+	<div class="row page-header">
+		<div class="col-lg-1">
+			{{> loginButtons}}
+		</div>
+		<div class="col-lg-offset-1 col-lg-8 center">
+			<div class="popup">
+			  <span class="popuptext" id="myPopup">Game saved !</span>
+			</div>
+			<p class="title">Star Wars Clicker</p>
+		</div>
+		<div class="col-lg-2 center">
+			<button id="lightSide" style="color:black">Go to the Light side</button>
+		</div>
+	</div>
+</template>
+
 
 <template name="main">
 	    <div class="col-lg-3">
@@ -35,12 +42,17 @@
 	    	<p>per second : {{autoClick}}</p>
 	    </div>
 	    <div class="row">
-	    	<img src="img/logo_empire.png" alt="Logo Empire" class="credit img-btn">
+	    	<img src="img/logo_empire.png" alt="Logo Empire" class="credit img-btn" id="logo">
 	    </div>
 
 		    
 		</div>
-		<div class="col-lg-offset-1 col-lg-4">
+		<div class="col-lg-1">
+			<div class="stage">
+				<div class="lightSaber vader" id="lightsaber1"></div>
+			</div>
+		</div>
+		<div class="col-lg-4">
 	    	<div class="row page-header center credit">
 	        	Bonus
 	        </div>
@@ -49,7 +61,12 @@
         		{{> bonusBtn}}
       		{{/each}}
 		</div>
-	    <div class="col-lg-offset-1 col-lg-3">
+		<div class="col-lg-1">
+			<div class="stage">
+				<div class="lightSaber vader" id="lightsaber2"></div>
+			</div>
+		</div>
+	    <div class="col-lg-3">
 	    	<div class="row page-header center credit">
 	    		Store
 	    	</div>

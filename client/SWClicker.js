@@ -170,6 +170,28 @@ function setSessionValueAfterClick(item, itemPrice, itemNb, autoclick) {
   }
 }
 
+Template.head.events({
+  'click #lightSide': function() {
+    console.log("Click biatch ")
+    document.getElementById('lightsaber1').className = "lightSaber luke";
+    document.getElementById('lightsaber2').className = "lightSaber luke";
+    document.getElementById('lightSide').innerHTML = "Got to the Dark Side";
+    document.getElementById('lightSide').id = "darkSide";
+    document.getElementById('logo').src = "img/logo_alliance.png";
+    document.body.style.backgroundImage = "url('img/wallpaper4.jpg')";
+  },
+  'click #darkSide': function() {
+    console.log("Click biatch ")
+    document.getElementById('lightsaber1').className = "lightSaber vader";
+    document.getElementById('lightsaber2').className = "lightSaber vader";
+    document.getElementById('darkSide').innerHTML = "Got to the Light Side";
+    document.getElementById('darkSide').id = "lightSide";
+    document.getElementById('logo').src = "img/logo_empire.png";
+    document.body.style.backgroundImage = "url('img/wallpaper1.jpg')";
+  }
+
+});
+
 Template.main.events({
   'click .credit': function () {
     Session.set('credit', Session.get('credit') + Session.get('creditClick'));
@@ -198,7 +220,6 @@ function clickOnBonusNumber(id) {
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
           document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 200) ;
-
         }
         break;
       case 2:

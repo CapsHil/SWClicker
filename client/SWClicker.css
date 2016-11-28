@@ -120,3 +120,7 @@ body  {
 .badge, .badge-0 {
   background-color: #7e8082;
 }
+
+.center {
+  text-align: center;
+}

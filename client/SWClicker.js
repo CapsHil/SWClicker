@@ -26,9 +26,8 @@ Session.setDefault('tieNb', 0);
 Session.setDefault('stPrice', 10);
 Session.setDefault('tiePrice', 50);
 Session.setDefault('autoClicker', 0);
-
-
-
+Session.setDefault('tie', '???');
+Session.setDefault('st', '???');
 
 Template.body.helpers({
   users: function() {
@@ -37,87 +36,85 @@ Template.body.helpers({
 });
 
 Template.main.helpers({
-credit: function () {
-  return Math.round(Session.get('credit'));
-},
-tieNb: function() {
-  return Session.get('tieNb');
-},
-stNb: function() {
-  return Session.get('stNb');
-},
-stPrice: function() {
-  return Session.get('stPrice');
-},
-tiePrice: function() {
-  return Session.get('tiePrice');
-},
-autoClick: function() {
-  return Session.get('autoClicker');
-}
+  credit: function () {
+    return Math.round(Session.get('credit'));
+  },
+  tieNb: function() {
+    return Session.get('tieNb');
+  },
+  stNb: function() {
+    return Session.get('stNb');
+  },
+  stPrice: function() {
+    return Session.get('stPrice');
+  },
+  tiePrice: function() {
+    return Session.get('tiePrice');
+  },
+  autoClick: function() {
+    return Session.get('autoClicker');
+  },
+  st: function() {
+    return Session.get('st');
+  },
+  tie: function() {
+    return Session.get('tie');
+  }
 });
 
 
 Meteor.setInterval(function() {
   Session.set('credit', Session.get('credit') + Session.get('autoClicker'));
+  checkButtonAvailiability();
+}, 1000);
+
+function checkButtonAvailiability() {
   if(Session.get('credit') >= Session.get('tiePrice')) {
-    document.getElementById('tie').className = "btn-ok";
+      document.getElementById('tie').className = "btn-ok";
+    Session.set('tie', "TIE Fighter");
   }else{
-    document.getElementById('tie').className = "btn";
+      document.getElementById('tie').className = "btn";
   }
   if(Session.get('credit') >= Session.get('stPrice')) {
-    document.getElementById('st').className = "btn-ok";
+      document.getElementById('st').className = "btn-ok";
+    Session.set('st', "Stromtrooper");
   }else{
-    document.getElementById('st').className = "btn";
+      document.getElementById('st').className = "btn";
   }
-}, 1000);
+}
+
+function setSessionValueAfterClick(item, itemPrice, itemNb, price, autoclick) {
+  if(Session.get('credit') >= Session.get(itemPrice)) {
+    Session.set('credit', Session.get('credit') - Session.get(itemPrice)) ;
+    Session.set(itemNb, Session.get(itemNb)+1);
+    Session.set(itemPrice, Session.get(itemPrice)+price);
+    Session.set('autoClicker', Session.get('autoClicker') + autoclick);
+  }
+  if(Session.get('credit') >= Session.get(itemPrice)) {
+    document.getElementById(item).className = "btn-ok";
+  }else{
+    document.getElementById(item).className = "btn";
+  }
+}
 
 
 Template.main.events({
   'click .credit': function () {
     Session.set('credit', Session.get('credit') + 1);
-    if(Session.get('credit') >= Session.get('tiePrice')) {
-      document.getElementById('tie').className = "btn-ok";
-    }else{
-      document.getElementById('tie').className = "btn";
-    }
-    if(Session.get('credit') >= Session.get('stPrice')) {
-      document.getElementById('st').className = "btn-ok";
-    }else{
-      document.getElementById('st').className = "btn";
-    }
+    checkButtonAvailiability();
   },
   'click #tie': function() {
-    if(Session.get('credit') >= Session.get('tiePrice')) {
-      Session.set('credit', Session.get('credit') - Session.get('tiePrice')) ;
-      Session.set('tieNb', Session.get('tieNb')+1);
-      Session.set('tiePrice', Session.get('tiePrice')+2);
-      Session.set('autoClicker', Session.get('autoClicker') + 0.5);
-    }
-    if(Session.get('credit') >= Session.get('tiePrice')) {
-      document.getElementById('tie').className = "btn-ok";
-    }else{
-      document.getElementById('tie').className = "btn";
-    }
+    setSessionValueAfterClick('tie', 'tiePrice', 'tieNb', 5, 0.5);
   },
   'click #st': function() {
-    if(Session.get('credit') >= Session.get('stPrice')) {
-      Session.set('credit', Session.get('credit') - Session.get('stPrice')) ;
-      Session.set('stNb', Session.get('stNb')+1);
-      Session.set('stPrice', Session.get('stPrice')+2);
-      Session.set('autoClicker', Session.get('autoClicker') + 0.2);
-    }
-    if(Session.get('credit') >= Session.get('stPrice')) {
-      document.getElementById('st').className = "btn-ok";
-    }else{
-      document.getElementById('st').className = "btn";
-    }
+    setSessionValueAfterClick('st', 'stPrice', 'stNb', 2, 0.2);
+    
   }
 });
 
 function saveGame() {
   console.log("Game saved!");
-//  Meteor.call('updateBackup', Meteor.userId(), Session.get('credit'), Session.get('stNb'), Session.get('tieNb'), Session.get('autoClicker'));
+  //Meteor.call('updateBackup', Meteor.userId(), Session.get('credit'), Session.get('stNb'), Session.get('tieNb'), Session.get('autoClicker'));
 }
 
 Meteor.methods({

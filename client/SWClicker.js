@@ -1,13 +1,10 @@
 import Bonus from '/collections/bonus.js'
 import Games from '/collections/games.js'
 
-
-//Meteor.onStartup(function() {
-  Accounts.ui.config({
-    passwordSignupFields: "USERNAME_ONLY"
-  });
-  Meteor.call('getBackup', Meteor.userId());
-//});
+Accounts.ui.config({
+  passwordSignupFields: "USERNAME_ONLY"
+});
+Meteor.call('getBackup', Meteor.userId());
 
 Session.setDefault('credit', 0);
 Session.setDefault('creditClick', 1);
@@ -32,23 +29,20 @@ if(Meteor.loggingIn()) {
       saveGame();
     }
   }, 10000);
-  // switch(Session.get('bonusLvl')) {
-  //   case 1:
-  //     document.getElementById('1').className = "btn bonus line-through";
-  //     break;
-  //   case 2:
-  //     document.getElementById('2').className = "btn bonus line-through";
-  //     break;
-  //   case 3:
-  //     document.getElementById('3').className = "btn bonus line-through";
-  //     break;
-  //   case 4:
-  //     document.getElementById('4').className = "btn bonus line-through";
-  //     break;
-  //   case 5:
-  //     document.getElementById('5').className = "btn bonus line-through";
-  //     break;
-  // };
+  Meteor.call('getBackup', Meteor.userId(), function(error, result) {
+    if (error) {
+      // handle error
+    }
+    else {
+      var game=result;
+      Session.set('credit', game.credit);
+      Session.set('clicker', game.clicker);
+      Session.set('sdNb', game.sd);
+      Session.set('stNb', game.st);
+      Session.set('tieNb', game.tie);
+      Session.set('bonusLvl', game.bonusLvl);
+    }
+  });
 }
 
 Template.body.helpers({
@@ -105,9 +99,9 @@ Meteor.setInterval(function() {
   //console.log(Bonus.findOne().name);
 }, 1000);
 
-Meteor.setInterval(function() {
-  saveGame();
-}, 10000);
+// Meteor.setInterval(function() {
+//   saveGame();
+// }, 10000);
 
 function checkBonusAvailiability() {
   var bonus = Bonus.find({id: Session.get('bonusLvl')}).fetch();
@@ -119,19 +113,27 @@ function checkBonusAvailiability() {
   }
   if(Session.get('bonusLvl') == 2) {
     document.getElementById('2').className = "row thumbnail";
-    //document.getElementByClass('coucou').className = "row";
+    if(Session.get('credit') >= bonus[0].cost) {
+      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+    }
   }
   if(Session.get('bonusLvl') == 3) {
     document.getElementById('3').className = "row thumbnail";
-    //document.getElementByClass('coucou').className = "row";
+    if(Session.get('credit') >= bonus[0].cost) {
+      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+    }
   }
   if(Session.get('bonusLvl') == 4) {
     document.getElementById('4').className = "row thumbnail";
-    //document.getElementByClass('coucou').className = "row";
+    if(Session.get('credit') >= bonus[0].cost) {
+      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+    }
   }
   if(Session.get('bonusLvl') == 5) {
     document.getElementById('5').className = "row thumbnail";
-    //document.getElementByClass('coucou').className = "row";
+    if(Session.get('credit') >= bonus[0].cost) {
+      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+    }
   }
 }
 
@@ -226,7 +228,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 2 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+3);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('2').className = "btn bonus line-through";
+          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 500) ;
         }
         break;
@@ -234,7 +236,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 3 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+5);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('3').className = "btn bonus line-through";
+          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 1000) ;
         }
         break;
@@ -242,7 +244,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 4 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+10);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('4').className = "btn bonus line-through";
+          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 2000) ;
         }
         break;
@@ -250,7 +252,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 5 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+30);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('5').className = "btn bonus line-through";
+          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 5000) ;
         }
         break;
@@ -260,20 +262,10 @@ function clickOnBonusNumber(id) {
 function saveGame() {
   var popup = document.getElementById('myPopup');
   popup.classList.toggle('show');
-  Meteor.call('updateBackup', Meteor.userId(), Math.round(Session.get('credit')), Session.get('stNb'), Session.get('tieNb'), Session.get('sdNb'), Session.get('autoClicker'));
+  Meteor.call('updateBackup', Meteor.userId(), Math.round(Session.get('credit')), Session.get('stNb'), Session.get('tieNb'), Session.get('sdNb'), Session.get('autoClicker'), Session.get('bonusLvl'));
 }
 
 function myFunction() {
     var popup = document.getElementById('myPopup');
     popup.classList.toggle('show');
 }
-
-Meteor.methods({
-  loadGame: function(credit, st, tie, sd, clicker) {
-    Session.set('credit', credit);
-    Session.set('stNb', st);
-    Session.set('tieNb', tie);
-    Session.set('sdNb', sd);
-    Session.set('autoClicker', clicker);
-  }
-});

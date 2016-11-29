@@ -6,7 +6,7 @@ Meteor.methods({
 		console.log('User is logging in')
 		if(Games.findOne({player: id}) == null) {
 			console.log('First back up on server');
-			Games.insert({player: id, credit: 0, st: 0, tie: 0, sd: 0, clicker: 0, bonusLvl:0});
+			Games.insert({player: id, credit: 0, st: 0, tie: 0, sd: 0, clicker: 0, bonusLvl:1});
 		}
 	},
 

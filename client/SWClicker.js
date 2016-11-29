@@ -42,6 +42,10 @@ if(Meteor.loggingIn()) {
       Session.set('stNb', game.st);
       Session.set('tieNb', game.tie);
       Session.set('bonusLvl', game.bonusLvl);
+      Session.set('isDarkSide', game.isDarkSide);
+      Session.set('creditClick', game.creditClick);
+      changeForceSide(Session.get('isDarkSide'));
+      checkOnLogIn();
     }
   });
 }
@@ -97,7 +101,7 @@ Meteor.setInterval(function() {
   checkButtonAvailiability();
   document.title = Math.round(Session.get('credit')) + " GC";
   checkBonusAvailiability();
-  //console.log(Bonus.findOne().name);
+  //changeForceSide(Session.get('isDarkSide'));
 }, 1000);
 
 // Meteor.setInterval(function() {
@@ -115,26 +119,55 @@ function checkBonusAvailiability() {
   if(Session.get('bonusLvl') == 2) {
     document.getElementById('2').className = "row thumbnail";
     if(Session.get('credit') >= bonus[0].cost) {
-      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+      document.getElementById('2').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
     }
   }
   if(Session.get('bonusLvl') == 3) {
     document.getElementById('3').className = "row thumbnail";
     if(Session.get('credit') >= bonus[0].cost) {
-      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+      document.getElementById('3').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
     }
   }
   if(Session.get('bonusLvl') == 4) {
     document.getElementById('4').className = "row thumbnail";
     if(Session.get('credit') >= bonus[0].cost) {
-      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+      document.getElementById('4').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
     }
   }
   if(Session.get('bonusLvl') == 5) {
     document.getElementById('5').className = "row thumbnail";
     if(Session.get('credit') >= bonus[0].cost) {
-      document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
+      document.getElementById('5').innerHTML = "<button class=\"btn-ok bonus\">"+bonus[0].name+"<span class=\"badge badge-0\"></span><br />"+bonus[0].cost+" GC</button>";
     }
+  }
+}
+
+function checkOnLogIn() {
+  if(Session.get('tie') > 0) {
+    if(Session.get('isDarkSide')) {
+      Session.set('tie', "TIE Fighter");
+    } else {
+      Session.set('tie', "X-Wing Fighter");
+    }
+  }
+  if(Session.get('st') > 0) {
+    if(Session.get('isDarkSide')) {
+      Session.set('st', "Stromtrooper");
+    } else {
+      Session.set('st', "Rebel Soldier");
+    }
+  }
+  if(Session.get('sd') > 0) {
+    if(Session.get('isDarkSide')) {
+      Session.set('sd', "Star Destroyer");
+    } else {
+      Session.set('sd', "Millenium Falcon");
+    }
+  }
+  for(i = 1; i < Session.get('bonusLvl'); i++) {
+    var bonus = Bonus.find({id: i}).fetch();
+    document.getElementById(String(i)).className = "row thumbnail";
+    document.getElementById(String(i)).innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
   }
 }
 
@@ -185,26 +218,32 @@ function setSessionValueAfterClick(item, itemPrice, itemNb, autoclick) {
   }
 }
 
-Template.head.events({
-  'click #lightSide': function() {
-    console.log("Click biatch ")
+function changeForceSide(isDarkSide) {
+  if(!isDarkSide) {
     document.getElementById('lightsaber1').className = "lightSaber luke";
     document.getElementById('lightsaber2').className = "lightSaber luke";
     document.getElementById('lightSide').innerHTML = "Got to the Dark Side";
     document.getElementById('lightSide').id = "darkSide";
     document.getElementById('logo').src = "img/logo_alliance.png";
     document.body.style.backgroundImage = "url('img/wallpaper4.jpg')";
-    Session.set('isDarkSide', false);
-  },
-  'click #darkSide': function() {
-    console.log("Click biatch ")
+  } else {
     document.getElementById('lightsaber1').className = "lightSaber vader";
     document.getElementById('lightsaber2').className = "lightSaber vader";
     document.getElementById('darkSide').innerHTML = "Got to the Light Side";
     document.getElementById('darkSide').id = "lightSide";
     document.getElementById('logo').src = "img/logo_empire.png";
     document.body.style.backgroundImage = "url('img/wallpaper1.jpg')";
+  }
+}
+
+Template.head.events({
+  'click #lightSide': function() {
+    Session.set('isDarkSide', false);
+    changeForceSide(Session.get('isDarkSide'));
+  },
+  'click #darkSide': function() {
     Session.set('isDarkSide', true);
+    changeForceSide(Session.get('isDarkSide'));
   }
 
 });
@@ -243,7 +282,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 2 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+3);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
+          document.getElementById('2').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 500) ;
         }
         break;
@@ -251,7 +290,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 3 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+5);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
+          document.getElementById('3').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 1000) ;
         }
         break;
@@ -259,7 +298,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 4 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+10);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
+          document.getElementById('4').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 2000) ;
         }
         break;
@@ -267,7 +306,7 @@ function clickOnBonusNumber(id) {
         if(Session.get('bonusLvl') == 5 && Session.get('credit') >= bonus[0].cost) {
           Session.set('creditClick', Session.get('creditClick')+30);
           Session.set('bonusLvl', Session.get('bonusLvl')+1);
-          document.getElementById('1').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
+          document.getElementById('5').innerHTML = "<button class=\"btn-ok bonus done\">"+bonus[0].name+"</button>"
           Session.set('credit', Session.get('credit') - 5000) ;
         }
         break;
@@ -277,5 +316,5 @@ function clickOnBonusNumber(id) {
 function saveGame() {
   var popup = document.getElementById('popup');
   popup.classList.toggle('show');
-  Meteor.call('updateBackup', Meteor.userId(), Math.round(Session.get('credit')), Session.get('stNb'), Session.get('tieNb'), Session.get('sdNb'), Session.get('autoClicker'), Session.get('bonusLvl'));
+  Meteor.call('updateBackup', Meteor.userId(), Math.round(Session.get('credit')), Session.get('stNb'), Session.get('tieNb'), Session.get('sdNb'), Session.get('autoClicker'), Session.get('bonusLvl'), Session.get('isDarkSide'), Session.get('creditClick'));
 }

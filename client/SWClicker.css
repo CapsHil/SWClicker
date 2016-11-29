@@ -64,7 +64,6 @@ body  {
   background-image: -ms-linear-gradient(top, #585b5c, #7e8082);
   background-image: -o-linear-gradient(top, #585b5c, #7e8082);
   background-image: linear-gradient(to bottom, #585b5c, #7e8082);
-  text-decoration: none;
 }
 
 .img-btn {

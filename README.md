@@ -8,6 +8,8 @@ You can also unlock some bonus, to increase your GC generation per click
 Create your account to save your game and reload it after living.
 Game is saving by itself all 10 seconds
 
+If you feel like a Jedi, try the Light Side of the Force...
+
 ### Development
 
 SWClicker is based on meteor.js. It's a Javascript framework based on node.js. It's a front and back framework.

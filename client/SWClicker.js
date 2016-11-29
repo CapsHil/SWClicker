@@ -6,6 +6,7 @@ Accounts.ui.config({
 });
 Meteor.call('getBackup', Meteor.userId());
 
+Session.setDefault('isDarkSide', true);
 Session.setDefault('credit', 0);
 Session.setDefault('creditClick', 1);
 Session.setDefault('stNb', 0);
@@ -139,20 +140,32 @@ function checkBonusAvailiability() {
 
 function checkButtonAvailiability() {
   if(Session.get('credit') >= Session.get('tiePrice')) {
-      document.getElementById('tie').className = "btn-ok";
-    Session.set('tie', "TIE Fighter");
+    document.getElementById('tie').className = "btn-ok";
+    if(Session.get('isDarkSide')) {
+      Session.set('tie', "TIE Fighter");
+    } else {
+      Session.set('tie', "X-Wing Fighter");
+    }
   }else{
       document.getElementById('tie').className = "btn";
   }
   if(Session.get('credit') >= Session.get('stPrice')) {
-      document.getElementById('st').className = "btn-ok";
-    Session.set('st', "Stromtrooper");
+    document.getElementById('st').className = "btn-ok";
+    if(Session.get('isDarkSide')) {
+      Session.set('st', "Stromtrooper");
+    } else {
+      Session.set('st', "Rebel Soldier");
+    }
   }else{
       document.getElementById('st').className = "btn";
   }
   if(Session.get('credit') >= Session.get('sdPrice')) {
-      document.getElementById('sd').className = "btn-ok";
-    Session.set('sd', "Star Destroyer");
+    document.getElementById('sd').className = "btn-ok";
+    if(Session.get('isDarkSide')) {
+      Session.set('sd', "Star Destroyer");
+    } else {
+      Session.set('sd', "Millenium Falcon");
+    }
   }else{
       document.getElementById('sd').className = "btn";
   }
@@ -181,6 +194,7 @@ Template.head.events({
     document.getElementById('lightSide').id = "darkSide";
     document.getElementById('logo').src = "img/logo_alliance.png";
     document.body.style.backgroundImage = "url('img/wallpaper4.jpg')";
+    Session.set('isDarkSide', false);
   },
   'click #darkSide': function() {
     console.log("Click biatch ")
@@ -190,6 +204,7 @@ Template.head.events({
     document.getElementById('darkSide').id = "lightSide";
     document.getElementById('logo').src = "img/logo_empire.png";
     document.body.style.backgroundImage = "url('img/wallpaper1.jpg')";
+    Session.set('isDarkSide', true);
   }
 
 });

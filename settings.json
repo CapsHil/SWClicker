@@ -1,8 +1,0 @@
-{
-    "galaxy.meteor.com": {
-        "env": {
-            "MONGO_URL" : "mongodb://<capshil>:<testest>@ds159377.mlab.com:59377/swclicker",
-            "DEPLOY_HOSTNAME" : "galaxy.meteor.com"
-        }
-    }
-}

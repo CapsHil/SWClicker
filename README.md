@@ -6,6 +6,7 @@ You can click on the Empire logo to generate a Galactic Credit (GC).
 When you have enought GC, buy some Stormtrooper, TIE Fighter or Star Destroyer...
 You can also unlock some bonus, to increase your GC generation per click
 Create your account to save your game and reload it after living.
+Game is saving by itself all 10 seconds
 
 ### Development
 

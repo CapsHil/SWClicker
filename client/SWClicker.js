@@ -260,12 +260,7 @@ function clickOnBonusNumber(id) {
 }
 
 function saveGame() {
-  var popup = document.getElementById('myPopup');
+  var popup = document.getElementById('popup');
   popup.classList.toggle('show');
   Meteor.call('updateBackup', Meteor.userId(), Math.round(Session.get('credit')), Session.get('stNb'), Session.get('tieNb'), Session.get('sdNb'), Session.get('autoClicker'), Session.get('bonusLvl'));
-}
-
-function myFunction() {
-    var popup = document.getElementById('myPopup');
-    popup.classList.toggle('show');
 }
